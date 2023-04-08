@@ -122,7 +122,7 @@ function ChatMessage(props) {
     <>
       <div className={`text-white mt-1 ${messageClass}`}>{name}</div>
       <div className={`message mt-2  ${messageClass}`}>
-        <img src={photoURL} alt="photo" />
+        <img src={photoURL} alt="profilePhoto" />
         <p>
           <span className="text-lg">{text}</span>
         </p>
