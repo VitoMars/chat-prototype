@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
-import "firebase/compat/auth";
 import GoogleButton from "react-google-button";
 import dayjs from "dayjs";
 import "dayjs/locale/it";
+import DefaultImage from "./img/DefaultImage.jpg";
 
+// Firebase
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-
-dayjs.locale("it");
 
 firebase.initializeApp({
   apiKey: "AIzaSyATI6DPeSoZaLB4ey1q-Z3nLnMT8gJ5OPc",
@@ -26,7 +26,9 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 function App() {
+  dayjs.locale("it");
   const [user] = useAuthState(auth);
+
   return (
     <div className="App">
       <header className="h-[10vh] rounded-b-3xl ">
@@ -34,11 +36,23 @@ function App() {
         <SignOut />
       </header>
 
-      <section className={` ${user ? "" : "flex items-center"}`}>
-        {user ? <ChatRoom /> : <GoogleButton onClick={signInWithGoogle} />}
+      <section className={`${user ? "" : "flex items-center"}`}>
+        {user ? (
+          <ChatRoom />
+        ) : (
+          <>
+            <AnonymousButton className="mt-3" />
+            <GoogleButton className="mt-3" onClick={signInWithGoogle} />
+          </>
+        )}
       </section>
     </div>
   );
+}
+
+// Accesso
+function signInAnonymously() {
+  firebase.auth().signInAnonymously();
 }
 
 function signInWithGoogle() {
@@ -46,6 +60,19 @@ function signInWithGoogle() {
   auth.signInWithPopup(provider);
 }
 
+function AnonymousButton() {
+  return (
+    <button
+      className="h-[50px] w-[240px] flex items-center"
+      onClick={signInAnonymously}
+    >
+      <img src={DefaultImage} alt="anonimo" />
+      <span className="px-2">Autenticazione Anonima</span>
+    </button>
+  );
+}
+
+// SignOut
 function SignOut() {
   return (
     auth.currentUser && (
@@ -94,7 +121,9 @@ function ChatRoom() {
     <>
       <main className="h-[80vh]">
         {messages &&
-          messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          messages.map((msg, index) => (
+            <ChatMessage key={index} message={msg} />
+          ))}
 
         <div ref={dummy}></div>
       </main>
@@ -130,7 +159,7 @@ function ChatMessage(props) {
     <>
       {/* <div className={`text-white mt-1 ${messageClass}`}>{name}</div> */}
       <div className={`message mt-2  ${messageClass}`}>
-        <img src={photoURL} alt="profilePhoto" />
+        <img src={photoURL || DefaultImage} alt="profilePhoto" />
         <p
           // bg-[#1F222C]
           className={` rounded-2xl
