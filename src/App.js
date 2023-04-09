@@ -5,9 +5,12 @@ import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import GoogleButton from "react-google-button";
 import dayjs from "dayjs";
+import "dayjs/locale/it";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+
+dayjs.locale("it");
 
 firebase.initializeApp({
   apiKey: "AIzaSyATI6DPeSoZaLB4ey1q-Z3nLnMT8gJ5OPc",
@@ -26,12 +29,15 @@ function App() {
   const [user] = useAuthState(auth);
   return (
     <div className="App">
-      <header>
+      <header className="rounded-b-3xl">
         <h1>Prototipo Chat</h1>
         <SignOut />
       </header>
 
-      <section className={user ? "" : "flex items-center"}>
+      <section
+        // className={`bg-gradient-to-b from-[#131621] via-[#131621] to-red-600 ${
+        className={` ${user ? "" : "flex items-center"}`}
+      >
         {user ? <ChatRoom /> : <GoogleButton onClick={signInWithGoogle} />}
       </section>
     </div>
@@ -46,7 +52,10 @@ function signInWithGoogle() {
 function SignOut() {
   return (
     auth.currentUser && (
-      <button className="text-lg px-3 py-2" onClick={() => auth.signOut()}>
+      <button
+        className="text-lg px-6 py-2 rounded-2xl bg-gradient-to-r from-red-500 to-rose-500"
+        onClick={() => auth.signOut()}
+      >
         Disconnettiti
       </button>
     )
@@ -91,16 +100,16 @@ function ChatRoom() {
         <div ref={dummy}></div>
       </main>
 
-      <form onSubmit={sendMessage} className="h-[8vh]">
+      <form onSubmit={sendMessage} className="h-[8vh] ">
         <input
-          className="text-lg"
+          className="text-lg rounded-tl-2xl"
           value={formValue}
           placeholder="Invia un messaggio pazzo 🤪"
           onChange={(e) => setFormValue(e.target.value)}
         />
         <button
           disabled={formValue ? false : true}
-          className="text-lg bg-[#1da1f2] "
+          className="text-lg bg-sky-600 rounded-tr-3xl"
         >
           Invia 👉
         </button>
@@ -113,8 +122,8 @@ function ChatRoom() {
 function ChatMessage(props) {
   const { uid, name, text, photoURL, date } = props.message;
 
-  const Data = dayjs(date).format("DD/MM/YYYY");
-  const Ora = dayjs(date).format("HH:mm");
+  const dayOfWeek = dayjs(date).format("dddd");
+  const hour = dayjs(date).format("HH:mm");
 
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
@@ -123,12 +132,23 @@ function ChatMessage(props) {
       <div className={`text-white mt-1 ${messageClass}`}>{name}</div>
       <div className={`message mt-2  ${messageClass}`}>
         <img src={photoURL} alt="profilePhoto" />
-        <p>
+        <p
+          // bg-[#1F222C]
+          className={` rounded-2xl
+            ${
+              messageClass === "sent"
+                ? "rounded-br-none bg-gradient-to-r from-blue-600 to-sky-500"
+                : "rounded-bl-none bg-gradient-to-r from-red-500 to-rose-500"
+            }
+              `}
+        >
           <span className="text-lg">{text}</span>
         </p>
       </div>
-      <p className={`text-xs p-0 mt-1 ${messageClass}`}>
-        Messaggio inviato il {Data} alle {Ora}
+      <p
+        className={`text-xs text-gray-400 p-0 mt-1 capitalize ${messageClass}`}
+      >
+        {dayOfWeek} - {hour}
       </p>
     </>
   );
