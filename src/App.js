@@ -93,7 +93,7 @@ function ChatRoom() {
 
   return (
     <>
-      <main className="h-[90vh]">
+      <main className="h-[80vh]">
         {messages &&
           messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
 
