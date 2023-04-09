@@ -100,16 +100,16 @@ function ChatRoom() {
         <div ref={dummy}></div>
       </main>
 
-      <form onSubmit={sendMessage} className="h-[8vh] ">
+      <form onSubmit={sendMessage} className="h-[8vh] p-2">
         <input
-          className="text-lg rounded-tl-2xl"
+          className="text-lg rounded-l-2xl"
           value={formValue}
           placeholder="Invia un messaggio pazzo 🤪"
           onChange={(e) => setFormValue(e.target.value)}
         />
         <button
+          className="text-base rounded-r-2xl bg-sky-600 w-4/12 px-3"
           disabled={formValue ? false : true}
-          className="text-lg bg-sky-600 rounded-tr-3xl"
         >
           Invia 👉
         </button>
