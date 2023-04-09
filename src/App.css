@@ -10,7 +10,6 @@ body {
 
 .App header {
   background-color: #181717;
-  height: 8vh;
   min-height: 50px;
   color: white;
   position: fixed;
@@ -35,7 +34,6 @@ body {
 
 main {
   padding: 10px;
-  height: calc(100vh - 16vh);
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -70,7 +68,6 @@ input {
   color: white;
   outline: none;
   border: none;
-  padding: 0 10px;
 }
 
 button {

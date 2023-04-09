@@ -29,7 +29,7 @@ function App() {
   const [user] = useAuthState(auth);
   return (
     <div className="App">
-      <header className="rounded-b-3xl">
+      <header className="h-[10vh] rounded-b-3xl ">
         <h1>Prototipo Chat</h1>
         <SignOut />
       </header>
@@ -93,22 +93,22 @@ function ChatRoom() {
 
   return (
     <>
-      <main>
+      <main className="h-[90vh]">
         {messages &&
           messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
 
         <div ref={dummy}></div>
       </main>
 
-      <form onSubmit={sendMessage} className="h-[8vh] p-2">
+      <form onSubmit={sendMessage} className="h-[10vh] p-2">
         <input
-          className="text-lg rounded-l-2xl"
+          className="text-base rounded-l-2xl w-9/12 px-3"
           value={formValue}
           placeholder="Invia un messaggio pazzo 🤪"
           onChange={(e) => setFormValue(e.target.value)}
         />
         <button
-          className="text-base rounded-r-2xl bg-sky-600 w-4/12 px-3"
+          className="text-base rounded-r-2xl bg-sky-600 w-3/12 px-3"
           disabled={formValue ? false : true}
         >
           Invia 👉
