@@ -34,10 +34,7 @@ function App() {
         <SignOut />
       </header>
 
-      <section
-        // className={`bg-gradient-to-b from-[#131621] via-[#131621] to-red-600 ${
-        className={` ${user ? "" : "flex items-center"}`}
-      >
+      <section className={` ${user ? "" : "flex items-center"}`}>
         {user ? <ChatRoom /> : <GoogleButton onClick={signInWithGoogle} />}
       </section>
     </div>
