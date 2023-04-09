@@ -117,7 +117,7 @@ function ChatRoom() {
 
 // Messaggio
 function ChatMessage(props) {
-  const { uid, name, text, photoURL, date } = props.message;
+  const { uid, text, photoURL, date } = props.message;
 
   const dayOfWeek = dayjs(date).format("dddd");
   const hour = dayjs(date).format("HH:mm");
