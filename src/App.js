@@ -131,7 +131,6 @@ function ChatRoom() {
           messages.map((msg, index) => (
             <ChatMessage key={index} message={msg} />
           ))}
-
         <div ref={dummy}></div>
       </main>
       {toggleEmoji && (
@@ -152,15 +151,16 @@ function ChatRoom() {
       )}
       <form onSubmit={sendMessage} className="h-[10%] p-2">
         <span
-          className="flex items-center rounded-l-2xl pr-3 cursor-pointer"
+          className="flex items-center mr-3 cursor-pointer"
           onClick={() => setToggleEmoji(!toggleEmoji)}
         >
           🙂
         </span>
+
         <input
           className="text-base rounded-l-2xl w-9/12 px-3"
           value={formValue}
-          placeholder="Invia un bellissimo messaggio 🤪"
+          placeholder="Invia un bellissimo messaggio 😃"
           onChange={(e) => setFormValue(e.target.value)}
         />
         <button
