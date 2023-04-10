@@ -178,7 +178,7 @@ function ChatRoom() {
   );
 }
 
-// Messaggio
+// Messaggi
 function ChatMessage(props) {
   const { uid, text, photoURL, date } = props.message;
 
