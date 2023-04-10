@@ -101,7 +101,7 @@ function ChatRoom() {
 
   const [formValue, setFormValue] = useState("");
 
-  const [toggleEmoji, setToggleEmoji] = useState(false);
+  const [toggleEmoji, setToggleEmoji] = useState();
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -120,13 +120,9 @@ function ChatRoom() {
     setFormValue("");
   };
 
-  useEffect(
-    () => {
-      dummy.current.scrollIntoView({ behavior: "smooth" });
-    },
-    [messages],
-    [toggleEmoji == true]
-  );
+  useEffect(() => {
+    dummy.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages, toggleEmoji]);
 
   return (
     <>
