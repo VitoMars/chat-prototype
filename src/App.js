@@ -1,16 +1,21 @@
+// React
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-import GoogleButton from "react-google-button";
-import dayjs from "dayjs";
-import "dayjs/locale/it";
-import DefaultImage from "./img/DefaultImage.jpg";
-
 // Firebase
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+// DayJs
+import dayjs from "dayjs";
+import "dayjs/locale/it";
+// Google Button
+import GoogleButton from "react-google-button";
+// Images
+import DefaultImage from "./img/DefaultImage.jpg";
+// Emoji
+import { EmojiPicker } from "react-emoji-search";
 
 firebase.initializeApp({
   apiKey: "AIzaSyATI6DPeSoZaLB4ey1q-Z3nLnMT8gJ5OPc",
@@ -30,13 +35,13 @@ function App() {
   const [user] = useAuthState(auth);
 
   return (
-    <div className="App">
-      <header className="h-[10vh] rounded-b-3xl ">
+    <div className="App text-white ">
+      <header className="h-[10vh] rounded-b-3x">
         <h1>Prototipo Chat</h1>
         <SignOut />
       </header>
 
-      <section className={`${user ? "" : "flex items-center"}`}>
+      <section className={`h-[90vh] ${user ? "" : "flex items-center"}`}>
         {user ? (
           <ChatRoom />
         ) : (
@@ -63,7 +68,7 @@ function signInWithGoogle() {
 function AnonymousButton() {
   return (
     <button
-      className="h-[50px] w-[240px] flex items-center"
+      className="h-[50px] w-[240px] flex items-center bg-gray-700 text-white"
       onClick={signInAnonymously}
     >
       <img src={DefaultImage} alt="anonimo" />
@@ -96,6 +101,8 @@ function ChatRoom() {
 
   const [formValue, setFormValue] = useState("");
 
+  const [toggleEmoji, setToggleEmoji] = useState(false);
+
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -113,13 +120,17 @@ function ChatRoom() {
     setFormValue("");
   };
 
-  useEffect(() => {
-    dummy.current.scrollIntoView({ behavior: "smooth" });
-  }, [query]);
+  useEffect(
+    () => {
+      dummy.current.scrollIntoView({ behavior: "smooth" });
+    },
+    [messages],
+    [toggleEmoji == true]
+  );
 
   return (
     <>
-      <main className="h-[80vh]">
+      <main className="h-[80%]">
         {messages &&
           messages.map((msg, index) => (
             <ChatMessage key={index} message={msg} />
@@ -127,12 +138,33 @@ function ChatRoom() {
 
         <div ref={dummy}></div>
       </main>
-
-      <form onSubmit={sendMessage} className="h-[10vh] p-2">
+      {toggleEmoji && (
+        <div className="h-[45%]">
+          <EmojiPicker
+            set="native"
+            emojiSize={24}
+            emojiSpacing={8}
+            onEmojiClick={(emoji) => setFormValue(formValue + emoji)}
+            styles={{
+              backgroundColor: "#262626",
+              indicatorColor: "#b04c2d",
+              searchBackgroundColor: "#3A3A3A",
+              searchFontColor: "lightgrey",
+            }}
+          />
+        </div>
+      )}
+      <form onSubmit={sendMessage} className="h-[10%] p-2">
+        <span
+          className="flex items-center rounded-l-2xl pr-3 cursor-pointer"
+          onClick={() => setToggleEmoji(!toggleEmoji)}
+        >
+          🙂
+        </span>
         <input
           className="text-base rounded-l-2xl w-9/12 px-3"
           value={formValue}
-          placeholder="Invia un messaggio pazzo 🤪"
+          placeholder="Invia un bellissimo messaggio 🤪"
           onChange={(e) => setFormValue(e.target.value)}
         />
         <button
@@ -161,7 +193,6 @@ function ChatMessage(props) {
       <div className={`message mt-2  ${messageClass}`}>
         <img src={photoURL || DefaultImage} alt="profilePhoto" />
         <p
-          // bg-[#1F222C]
           className={` rounded-2xl
             ${
               messageClass === "sent"
