@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="App text-white ">
-      <header className="h-[10vh] rounded-b-3x">
+      <header className="h-[10vh] rounded-b-3xl">
         <h1>Prototipo Chat</h1>
         <SignOut />
       </header>
